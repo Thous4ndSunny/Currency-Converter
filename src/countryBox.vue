@@ -1,7 +1,6 @@
 <template>
   <transition>
     <div id="countryBox" v-if="readyToRoll">
-      <h1>{{ pickedCountry }}</h1>
       <div class="country-card">
         <img v-bind:src="countryFlag" alt="" />
         <div class="country-info-data">
