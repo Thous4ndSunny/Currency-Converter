@@ -96,16 +96,4 @@ img {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
-
-/* TRansition */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  scale: 0.2;
-  opacity: 0;
-}
 </style>
