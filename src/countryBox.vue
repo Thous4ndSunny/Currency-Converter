@@ -98,10 +98,13 @@ export default {
         return (value / 1000).toFixed(1) + " Thousand";
       } else if (value < 1000000000) {
         return (value / 1000000).toFixed(2) + " Milion";
+      } else if (value >= 1000000000) {
+        return (value / 1000000000).toFixed(3) + " Bilion";
       }
     }
   },
   created() {
+    // napravi axisios
     fetch("https://api.country.is")
       .then(response => response.json())
       .then(countryLocIP => {
