@@ -1,6 +1,6 @@
 <template>
   <div id="currConvert">
-    <div class="convert-container">
+    <div class="convert-container" v-if="rendered">
       <span class="con1">
         <!-- <img v-bind:src="firstFlag" /> -->
         <input type="number" v-model="amount" />
@@ -31,6 +31,7 @@
 export default {
   data() {
     return {
+      rendered: false,
       mislav: false,
       ali: false,
       show: false,
@@ -56,6 +57,7 @@ export default {
       .then(data => {
         this.conversionRateObject = data.conversion_rates;
         this.conversionRatesArray = Object.keys(data.conversion_rates);
+        this.rendered = true;
       });
   },
   // mounted() {
