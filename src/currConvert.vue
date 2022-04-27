@@ -132,6 +132,7 @@ span {
   width: 70px;
   height: 80px;
   margin-right: 10px;
+  border: 2px solid #32a88f;
 }
 
 .con1,
@@ -140,6 +141,7 @@ span {
   height: 80px;
   margin-right: 10px;
   margin-left: 10px;
+  border: 2px solid #32a88f;
 }
 
 img {
