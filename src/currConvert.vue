@@ -1,24 +1,29 @@
 <template>
   <div id="currConvert">
     <div class="convert-container">
-      <span class="1"><input type="number" v-model="amount"/></span>
-      <span class="2">
-        <select name="conv1" v-model="pickedCurrFrom" @change="showMeConv">
+      <span class="con1">
+        <!-- <img v-bind:src="firstFlag" /> -->
+        <input type="number" v-model="amount" />
+      </span>
+      <span class="sel1"
+        ><select name="conv1" v-model="pickedCurrFrom" @change="showMeConv">
           <option v-for="curr in conversionRatesArray" :key="curr">{{
             curr
-          }}</option>
-        </select>
+          }}</option></select
+        ></span
+      >
+      <span class="con2">
+        <!-- <img /> -->
+        <div class="output">
+          <p>{{ calculation1 }}</p>
+        </div>
       </span>
-      <span class="3">{{ calculation1 }}</span>
-      <span class="4">
-        <select name="to" id="" v-model="pickedCurrTo" @change="convertMoney">
+      <span class="sel2"
+        ><select name="to" id="" v-model="pickedCurrTo" @change="convertMoney">
           <option v-for="ar in conversionRatesArray" :key="ar">{{ ar }}</option>
-        </select>
-      </span>
+        </select></span
+      >
     </div>
-    <button @click="goToConvert()" class="showerBtn">
-      Convert some currencies
-    </button>
   </div>
 </template>
 
@@ -37,7 +42,9 @@ export default {
       pickedCurrTo: "USD",
       calculation: null,
       calculation1: null,
-      amount: 1
+      amount: 1,
+      allDataNeeded: null
+      // firstFlag: null
     };
   },
   methods: {},
@@ -51,11 +58,17 @@ export default {
         this.conversionRatesArray = Object.keys(data.conversion_rates);
       });
   },
+  // mounted() {
+  //   fetch("https://restcountries.com/v2/all")
+  //     .then(response => response.json())
+  //     .then(data => (this.allDataNeeded = data));
+  // },
+
   computed: {
     convertMoney: function() {
-      this.calculation1 = `${Number(
-        this.conversionRateObject[this.pickedCurrTo]
-      ) * Number(this.amount)} ${this.pickedCurrTo}`;
+      this.calculation1 =
+        Number(this.conversionRateObject[this.pickedCurrTo]) *
+        Number(this.amount);
     },
     showMeConv: function() {
       fetch(
@@ -65,6 +78,19 @@ export default {
         .then(data => {
           this.conversionRateObject = data.conversion_rates;
           this.conversionRatesArray = Object.keys(data.conversion_rates);
+          // if (this.pickedCurrFrom === "EUR") {
+          //   this.allDataNeeded.forEach(el => {
+          //     if (el.name === "European Union") {
+          //       this.firstFlag = el.flags.svg;
+          //     }
+          //   });
+          // } else {
+          //   this.allDataNeeded.forEach(el => {
+          //     if (this.pickedCurrFrom === el.currencies[0].code) {
+          //       this.firstFlag = el.flags.svg;
+          //     }
+          //   });
+          // }
         });
     }
   }
@@ -72,30 +98,110 @@ export default {
 </script>
 
 <style scoped>
+#currConvert {
+  /* margin-top: 30px; */
+  margin: 200px;
+}
 .convert-container {
-  max-width: 600px;
-  height: 300px;
-  margin: 0 auto;
-  border: 4px solid;
-  border-radius: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-
-  /* row-gap: 1px;
-  column-gap: 1px; */
+  grid-template-rows: auto;
+  width: 300px;
+  border: 3px none;
+  border-radius: 5px;
+  height: 300px;
+  align-items: center;
+  border: 3px solid #32a88f;
+  background-color: #222;
 }
 
 span {
-  width: 250px;
-  height: 100px;
-  border: 2px solid;
-  border-radius: 20px;
-  /* margin-top: 5px; */
+  border: none;
+  border-radius: 5px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  row-gap: 1px;
-  column-gap: 1px;
+  justify-content: center;
+
+  background-color: #2d2d37;
+}
+
+.sel1,
+.sel2 {
+  width: 70px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.con1,
+.con2 {
+  width: 200px;
+  height: 80px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+img {
+  width: 60px;
+  height: 60px;
+  background-color: #222;
+}
+
+input {
+  width: 120px;
+  height: 35px;
+  margin-left: 5px;
+  border: none;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: #32a88f;
+
+  border-radius: 5px;
+  border: 1px solid #32a88f;
+  background-color: #222;
+  -webkit-appearance: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.output {
+  width: 120px;
+  height: 35px;
+  margin-left: 5px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: #32a88f;
+  border: 1px solid #32a88f;
+  border-radius: 5px;
+  background-color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+select {
+  width: 50px;
+  height: 35px;
+  border-radius: 5px;
+  background-color: #222;
+  text-align: center;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #32a88f;
+  border: 1px solid #32a88f;
+  color: #32a88f;
+  -webkit-appearance: none;
+}
+
+p {
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: #32a88f;
 }
 </style>
