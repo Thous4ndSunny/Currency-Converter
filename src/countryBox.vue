@@ -2,16 +2,44 @@
   <transition>
     <div id="countryBox" v-if="readyToRoll">
       <div class="country-card">
-        <img v-bind:src="countryFlag" alt="" />
-        <div class="country-info-data">
-          <h1>{{ countryName }}</h1>
-          <p>{{ countryRegion }}</p>
-          <p>{{ countryCapital }}</p>
-          <p>{{ countryLanguage }}</p>
-          <p>{{ countryPopulation }}</p>
-          <p>{{ countryCurrCode }}</p>
-          <p>{{ countryCurrName }}</p>
-          <select
+        <div class="img-cont">
+          <span><img v-bind:src="countryFlag" alt=""/></span>
+        </div>
+
+        <span class="span-country"
+          ><h1>{{ countryName }}</h1></span
+        >
+        <span class="span-text"
+          ><span class="desc-cont">
+            <p class="desc">Region</p>
+          </span>
+          <p class="out">{{ countryRegion }}</p></span
+        >
+        <span class="span-text"
+          ><span class="desc-cont"><p class="desc">Capital</p></span>
+          <p class="out">{{ countryCapital }}</p></span
+        >
+        <span class="span-text"
+          ><span class="desc-cont">
+            <p class="desc">Language</p>
+          </span>
+          <p class="out">{{ countryLanguage }}</p></span
+        >
+        <span class="span-text"
+          ><span class="desc-cont">
+            <p class="desc">Population</p>
+          </span>
+          <p class="out">{{ countryPopulation }}</p></span
+        >
+        <span class="span-text"
+          ><span class="desc-cont">
+            <p class="desc">Currency</p>
+          </span>
+          <p class="out">{{ countryCurrName }}</p></span
+        >
+
+        <span class="span-select"
+          ><select
             name="Change"
             @change="renderSelectedCountry()"
             id=""
@@ -20,8 +48,8 @@
             <option v-for="option in listOfCountryNames" :key="option">{{
               option
             }}</option>
-          </select>
-        </div>
+          </select></span
+        >
       </div>
     </div>
   </transition>
@@ -71,7 +99,7 @@ export default {
     getListOfCountries: function(allCountriesData) {
       const countryList = allCountriesData.map(el => el.name);
       this.listOfCountryNames = countryList;
-      console.log(countryList);
+      // console.log(countryList);
     },
 
     getCountryInfo: function(dataObject, countryCode = 0, countryName = 0) {
@@ -98,10 +126,13 @@ export default {
         return (value / 1000).toFixed(1) + " Thousand";
       } else if (value < 1000000000) {
         return (value / 1000000).toFixed(2) + " Milion";
+      } else if (value >= 1000000000) {
+        return (value / 1000000000).toFixed(3) + " Bilion";
       }
     }
   },
   created() {
+    // napravi axios
     fetch("https://api.country.is")
       .then(response => response.json())
       .then(countryLocIP => {
@@ -127,48 +158,106 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
+#countryBox {
+  margin: 20px;
 }
 .country-card {
-  margin: 0 auto;
-  max-width: 300px;
-  height: 600px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  border-radius: 20px;
-  border: 4px solid;
-}
-.country-info-data {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  border-radius: 20px;
-  width: 100%;
-  height: 100%;
+  justify-content: space-between;
+  border: 5px solid #32a88f;
+  width: 300px;
+  height: 650px;
+  border-radius: 5px;
+  background-color: #222;
+  color: #32a88f;
+}
+img {
+  border: none;
+  width: 200px;
+  height: 150px;
+  background-color: #2d2d37;
 }
 
-img {
-  width: 100%;
-  max-height: 150px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border-bottom: 4px solid;
+.span-country {
+  width: 290px;
+  height: 90px;
+  border: 2px solid #32a88f;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #2d2d37;
+  color: #32a88f;
+  text-align: center;
+}
+h1 {
+  font-size: 24px;
+  margin: 15px auto;
+}
+.span-text {
+  width: 250px;
+  height: 60px;
+  border: 2px solid #32a88f;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #2d2d37;
+  color: #32a88f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.span-select {
+  width: 300px;
+  height: 60px;
+  margin-bottom: 0;
+  border: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #32a88f;
 }
 
 select {
-  width: 100%;
-  height: 3rem;
-  padding: 0.5px;
+  width: 300px;
+  height: 60px;
+  margin-bottom: 0;
   border: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #32a88f;
   text-align: center;
-  color: blue;
+  font-size: 18px;
+  /* -webkit-appearance: none; */
+}
 
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background: lightgrey;
+.out {
+  color: #32a88f;
+  font-size: 20px;
+  margin-bottom: 2px;
+  margin-top: 1px;
+}
+.desc {
+  font-size: 12px;
+  margin-top: 2px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.desc-cont {
+  border: 1px solid #32a88f;
+  height: 20px;
+  width: 100px;
+  text-align: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 0;
+  color: #222;
+  background-color: #32a88f;
+}
+.out-cont {
+  border: 1px solid;
+  height: 10px;
+  width: 80px;
 }
 </style>
